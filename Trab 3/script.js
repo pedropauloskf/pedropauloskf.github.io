@@ -45,16 +45,21 @@ function drawCircle() {
         return circle
     }
 
-    const p = randPoint();
-    p.r = randRadius(p.x, p.y, minDist(p))
+    var p = {x: null, y: null, r: null};
+    
+    while (!p.r) {
+        var temp = randPoint();
+        var r = randRadius(temp.x, temp.y, minDist(temp));
 
-    if (p.r) {
-        var circle = createCircle(p, randColor());
-        console.log(p);
-        console.log(circle);
-        circulos.push(p)
-        document.getElementById('content').appendChild(circle);
+        p = {...temp, r}
     }
+    
+    var circle = createCircle(p, randColor());
+    console.log(p);
+    console.log(circle);
+    circulos.push(p)
+    document.getElementById('content').appendChild(circle);
+    
 }
 
 function toggle() {
@@ -65,7 +70,7 @@ function toggle() {
         clearInterval(ONLINE);
         ONLINE = null;
     }
-    else ONLINE = setInterval(drawCircle, 250);
+    else ONLINE = setInterval(drawCircle, 50);
 }
 
 function clearTable() {
