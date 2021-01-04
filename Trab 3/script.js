@@ -28,22 +28,20 @@ function minDist(ponto) {
         return Math.floor(Math.sqrt(xSide + ySide))
     }
 
-    const reducer = (accumulator, currentValue) => {
-        console.log(accumulator, dist(ponto, currentValue) - currentValue.r)
-        return Math.min(accumulator, dist(ponto, currentValue) - currentValue.r)
-    };
+    const reducer = (acc, curr) => Math.min(acc, dist(ponto, curr) - curr.r);
 
-    return circulos.reduce(reducer, XMAX)
+    return circulos.reduce(reducer, 9999)
 }
 
 function drawCircle() {
     function createCircle(ponto, cor) {
+
         var circle = document.createElement('div');
             circle.className = 'circle';
-            circle.style.width = circle.style.height = ponto.r.toString() + 'px';
+            circle.style.width = circle.style.height = (ponto.r * 2).toString() + 'px';
             circle.style.backgroundColor = "#" + cor;
-            circle.style.bottom = ponto.y.toString() + 'px';
-            circle.style.left = ponto.x.toString() + 'px';
+            circle.style.bottom = (ponto.y - ponto.r).toString() + 'px';
+            circle.style.left = (ponto.x  - ponto.r).toString() + 'px';
         return circle
     }
 
@@ -52,6 +50,7 @@ function drawCircle() {
 
     if (p.r) {
         var circle = createCircle(p, randColor());
+        console.log(p);
         console.log(circle);
         circulos.push(p)
         document.getElementById('content').appendChild(circle);
@@ -66,7 +65,7 @@ function toggle() {
         clearInterval(ONLINE);
         ONLINE = null;
     }
-    else ONLINE = setInterval(drawCircle, 50);
+    else ONLINE = setInterval(drawCircle, 250);
 }
 
 function clearTable() {
